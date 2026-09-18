@@ -1,8 +1,9 @@
 # Technical Writing Portfolio
 
-Phase 6C establishes the technical and visual foundations for the portfolio.
-The root route is temporarily an internal design-system preview; portfolio
-pages and case-study content are intentionally deferred.
+Phase 6D establishes the technical foundation, visual system, global shell,
+navigation, and route scaffolding. The root route remains a temporary internal
+design-system preview; portfolio pages and case-study content are intentionally
+deferred.
 
 ## Stack
 

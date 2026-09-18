@@ -29,7 +29,7 @@ const spacing = [
 
 export default function DesignSystemPreview() {
   return (
-    <main>
+    <div>
       <div className="border-b border-line bg-surface-raised">
         <Container className="flex min-h-12 items-center justify-between gap-4 py-2">
           <span className="type-label text-ink-muted">Internal reference</span>
@@ -231,7 +231,7 @@ export default function DesignSystemPreview() {
           </div>
         </Container>
       </Section>
-    </main>
+    </div>
   );
 }
 
