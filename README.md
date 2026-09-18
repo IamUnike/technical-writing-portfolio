@@ -1,7 +1,8 @@
 # Technical Writing Portfolio
 
-Phase 6B establishes the technical foundation for the portfolio. Portfolio
-pages, case studies, and final visual design are intentionally deferred.
+Phase 6C establishes the technical and visual foundations for the portfolio.
+The root route is temporarily an internal design-system preview; portfolio
+pages and case-study content are intentionally deferred.
 
 ## Stack
 
@@ -37,4 +38,5 @@ src/components/ui/             Reusable interface primitives
 src/components/layout/         Shared layout components
 src/components/projects/       Work-index and project-preview components
 src/components/case-studies/   Reusable case-study components
+src/lib/                       Framework-independent utilities
 ```
