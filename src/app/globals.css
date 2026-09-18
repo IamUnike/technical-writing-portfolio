@@ -163,10 +163,21 @@ body {
   text-transform: uppercase;
 }
 
+.type-label-readable {
+  font-size: 0.8125rem;
+  letter-spacing: 0.105em;
+  line-height: 1.5;
+}
+
 .type-technical {
   font-family: var(--font-ibm-plex-mono), "Courier New", monospace;
   font-size: 0.8125rem;
   line-height: 1.65;
+}
+
+.type-technical-readable {
+  font-size: 0.875rem;
+  line-height: 1.6;
 }
 
 .control-transition {

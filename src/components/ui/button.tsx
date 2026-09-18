@@ -15,6 +15,8 @@ const variantClasses = {
     "border-accent bg-accent text-accent-contrast hover:border-accent-strong hover:bg-accent-strong active:translate-y-px",
   secondary:
     "border-line-strong bg-surface-raised text-ink hover:border-ink-muted hover:bg-surface active:translate-y-px",
+  inverse:
+    "border-accent-contrast bg-accent-contrast text-accent-strong hover:border-surface hover:bg-surface active:translate-y-px",
 } as const;
 
 type ButtonVariant = keyof typeof variantClasses;

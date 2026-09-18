@@ -1,9 +1,8 @@
 # Technical Writing Portfolio
 
-Phase 6D establishes the technical foundation, visual system, global shell,
-navigation, and route scaffolding. The root route remains a temporary internal
-design-system preview; portfolio pages and case-study content are intentionally
-deferred.
+Phase 6E adds the production homepage to the technical foundation, visual
+system, global shell, navigation, and route scaffolding. The Work, About,
+Contact, and case-study content remain intentionally deferred.
 
 ## Stack
 
@@ -39,5 +38,6 @@ src/components/ui/             Reusable interface primitives
 src/components/layout/         Shared layout components
 src/components/projects/       Work-index and project-preview components
 src/components/case-studies/   Reusable case-study components
+src/data/                      Typed portfolio data shared by routes
 src/lib/                       Framework-independent utilities
 ```
