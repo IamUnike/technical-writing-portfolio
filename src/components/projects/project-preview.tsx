@@ -1,4 +1,7 @@
-import type { Project } from "@/data/projects";
+import {
+  caseStudyStatusLabels,
+  type Project,
+} from "@/data/projects";
 import { cn } from "@/lib/cn";
 
 type ProjectPreviewProps = {
@@ -37,7 +40,7 @@ export function ProjectPreview({
         </p>
         <Metadata project={project} compact />
         <p className="type-technical type-technical-readable mt-8 border-t border-line pt-4 text-ink-muted">
-          Case study / In preparation
+          Case study / {caseStudyStatusLabels[project.caseStudyStatus]}
         </p>
       </article>
     );
@@ -65,7 +68,7 @@ export function ProjectPreview({
       <div className="mt-9 lg:col-span-3 lg:col-start-10 lg:mt-0">
         <Metadata project={project} />
         <p className="type-technical type-technical-readable mt-8 border-t border-line pt-4 text-ink-muted">
-          Case study / In preparation
+          Case study / {caseStudyStatusLabels[project.caseStudyStatus]}
         </p>
       </div>
     </article>
