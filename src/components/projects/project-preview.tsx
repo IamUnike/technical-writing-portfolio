@@ -3,6 +3,7 @@ import {
   type Project,
 } from "@/data/projects";
 import { cn } from "@/lib/cn";
+import { TextLink } from "@/components/ui/text-link";
 
 type ProjectPreviewProps = {
   className?: string;
@@ -39,9 +40,7 @@ export function ProjectPreview({
           {project.summary}
         </p>
         <Metadata project={project} compact />
-        <p className="type-technical type-technical-readable mt-8 border-t border-line pt-4 text-ink-muted">
-          Case study / {caseStudyStatusLabels[project.caseStudyStatus]}
-        </p>
+        <CaseStudyAvailability project={project} />
       </article>
     );
   }
@@ -67,11 +66,33 @@ export function ProjectPreview({
 
       <div className="mt-9 lg:col-span-3 lg:col-start-10 lg:mt-0">
         <Metadata project={project} />
-        <p className="type-technical type-technical-readable mt-8 border-t border-line pt-4 text-ink-muted">
-          Case study / {caseStudyStatusLabels[project.caseStudyStatus]}
-        </p>
+        <CaseStudyAvailability project={project} />
       </div>
     </article>
+  );
+}
+
+function CaseStudyAvailability({ project }: { project: Project }) {
+  if (project.caseStudyStatus === "published") {
+    return (
+      <p className="mt-8 border-t border-line pt-3">
+        <TextLink
+          href={`/work/${project.slug}`}
+          className="type-technical type-technical-readable inline-flex min-h-11 items-center"
+        >
+          Read case study
+          <span aria-hidden="true" className="ml-2">
+            →
+          </span>
+        </TextLink>
+      </p>
+    );
+  }
+
+  return (
+    <p className="type-technical type-technical-readable mt-8 border-t border-line pt-4 text-ink-muted">
+      Case study / {caseStudyStatusLabels[project.caseStudyStatus]}
+    </p>
   );
 }
 

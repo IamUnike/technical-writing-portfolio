@@ -1,9 +1,260 @@
-<CaseStudySection
-  eyebrow="Development status"
-  id="development-status"
-  title="Structure prepared. Evidence review comes next."
->
-  This route is an internal structural preview for the first case study. It
-  intentionally withholds project findings, artifacts, links, and outcomes
-  until they are verified for publication.
+<CaseStudySection eyebrow="01 / Overview" id="overview" title="Documentation grounded in observed behavior.">
+  Uptime Kuma is a self-hosted monitoring application. This independent
+  documentation project began by deploying the product on Windows with Docker
+  Desktop, opening the local application on port 3001, and working through the
+  monitoring tasks that the documentation would need to explain.
+
+  The work was not produced for or on behalf of the Uptime Kuma project. Its
+  purpose was to learn the product through direct use, document only behavior
+  that could be reproduced, and preserve the resulting material in a separate
+  repository that readers can inspect.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="02 / Challenge" id="challenge" title="Document the system—not an assumed happy path.">
+  A useful monitoring guide needs more than configuration steps. It must also
+  explain what happens when a target fails, how the product represents that
+  state, what an external notification contains, and what recovery looks like.
+
+  The project therefore treated investigation as part of the writing process.
+  Installation, monitor creation, Telegram notifications, status-page setup,
+  and result interpretation each had to be tested as a real user task. Failure
+  and recovery guidance had to come from observed product behavior rather than
+  assumptions about how the system should respond.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="03 / Investigation" id="investigation" title="Learn the workflow by using it and breaking it.">
+  The investigation started with a local Uptime Kuma deployment. It continued
+  through creating an HTTP monitor, configuring a status page, connecting
+  Telegram notifications, and examining the response-time and uptime
+  information exposed by the product.
+
+  To make the troubleshooting path reproducible, the monitor was pointed at a
+  nonexistent domain. This produced an `ENOTFOUND` failure and a Down state.
+  Restoring a valid target then produced `200 OK` and returned the monitor to
+  Up. Both transitions were checked through Uptime Kuma and through Telegram.
+
+  The project also investigated repeated Down notification behavior by
+  changing and observing the **“Resend Notification if Down X times
+  consecutively”** setting. The documentation records observable behavior
+  without extending that observation into unsupported timing claims.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="04 / Documentation strategy" id="documentation-strategy" title="Separate the work by user task.">
+  The material was structured as five connected pages rather than one long
+  walkthrough. Together, they form a task sequence from local installation to
+  interpreting monitor results.
+
+  <DocumentationSet
+    items={[
+      { title: "Install Uptime Kuma", filename: "docs/install-uptime-kuma.md" },
+      { title: "Create an HTTP monitor", filename: "docs/create-http-monitor.md" },
+      { title: "Configure Telegram notifications", filename: "docs/configure-telegram-notifications.md" },
+      { title: "Create a status page", filename: "docs/create-status-page.md" },
+      { title: "Monitor status and interpret results", filename: "docs/monitor-status-and-results.md" },
+    ]}
+  />
+
+  This structure keeps each page focused on a distinct goal while allowing the
+  workflow to progress naturally.
+
+  <WorkflowPath
+    title="Documentation path"
+    steps={[
+      "Install Uptime Kuma",
+      "Create an HTTP monitor",
+      "Configure Telegram notifications",
+      "Create a status page",
+      "Monitor status and interpret results",
+    ]}
+  />
+
+  Revision also reduced overlap between pages. The complete `ENOTFOUND`
+  failure-and-recovery explanation belonged in
+  `monitor-status-and-results.md`. The monitor-creation page retained only the
+  context needed to direct readers toward the monitoring and troubleshooting
+  material. That separation made cross-linking carry the relationship without
+  maintaining the same explanation in two places.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="05 / Technical verification" id="technical-verification" title="Trace failure and recovery end to end.">
+  The strongest verification path connected the configured target, the state
+  shown by Uptime Kuma, and the notification delivered outside the product.
+
+  <TechnicalSequence
+    items={[
+      "Valid target",
+      "HTTP monitor",
+      "200 OK / Up",
+      "Deliberately invalid domain",
+      "ENOTFOUND / Down",
+      "Telegram Down notification",
+      "Valid target restored / 200 OK / Up",
+      "Telegram recovery notification",
+    ]}
+  />
+
+  <ArtifactFigure
+    label="Figure 01"
+    caption="The deliberately invalid target produced a Down state and an ENOTFOUND result, supplying concrete evidence for the troubleshooting guidance."
+  >
+    <ArtifactImage
+      src="/images/projects/uptime-kuma/http-monitor-down.png"
+      alt="Uptime Kuma Test Monitor dashboard showing a deliberately nonexistent domain, a red Down state, zero-percent uptime, and getaddrinfo ENOTFOUND in the event record."
+      width={1920}
+      height={1089}
+    />
+  </ArtifactFigure>
+
+  <h3 className="type-h3 mt-14">Telegram as an external verification path</h3>
+
+  Telegram supplied a second observation point. A monitor failure led to the
+  Down state and a corresponding Down notification. Restoring the valid target
+  led to the Up state and a recovery notification. The paired messages verify
+  that the documented state transition was visible beyond the product UI.
+
+  <ArtifactFigure
+    label="Figure 02"
+    caption="Paired Telegram messages confirm the external notification path: one records the ENOTFOUND failure and the other records recovery to 200 OK."
+  >
+    <ArtifactPair
+      items={[
+        {
+          label: "Down notification",
+          src: "/images/projects/uptime-kuma/telegram-down-alert.png",
+          alt: "Telegram message for Test Monitor showing a red Down alert and getaddrinfo ENOTFOUND for the intentionally invalid domain.",
+          width: 757,
+          height: 62,
+        },
+        {
+          label: "Recovery notification",
+          src: "/images/projects/uptime-kuma/telegram-recovery-alert.png",
+          alt: "Telegram message for Test Monitor showing a green Up alert with 200 OK.",
+          width: 491,
+          height: 45,
+        },
+      ]}
+    />
+  </ArtifactFigure>
+</CaseStudySection>
+
+<CaseStudySection eyebrow="06 / Docs-as-Code" id="docs-as-code" title="Treat documentation quality as an engineering workflow.">
+  The independent repository keeps the documentation, screenshot library,
+  Markdown lint configuration, workflow definition, and project README under
+  version control. Changes moved through branches and pull requests, while
+  GitHub Actions and Markdown linting supplied repeatable quality checks.
+
+  <WorkflowPath
+    steps={[
+      "Markdown",
+      "Git",
+      "Feature branches",
+      "Pull requests",
+      "Markdown linting",
+      "GitHub Actions",
+      "Corrections",
+      "Merge to main",
+    ]}
+  />
+
+  The Git history shows iteration rather than a single documentation dump. A
+  small selection is enough to make that workflow auditable without reproducing
+  the full commit log.
+
+  <RevisionTrail
+    items={[
+      {
+        commits: ["e8e056f"],
+        description: "Initial Uptime Kuma documentation set added.",
+      },
+      {
+        commits: ["4347758", "7c51592"],
+        description: "Documentation quality checks added, then workflow triggers corrected.",
+      },
+      {
+        commits: ["55f6bdc", "baf0ba3", "d1ce9cf"],
+        description: "Markdown linting configured and the resulting lint errors corrected.",
+      },
+      {
+        commits: ["8a073e5", "9556d89"],
+        description: "Pull requests for documentation quality checks and the project README merged.",
+      },
+    ]}
+  />
+</CaseStudySection>
+
+<CaseStudySection eyebrow="07 / Open-source contribution" id="open-source" title="Carry a separate improvement upstream.">
+  The independent five-page repository and the contribution to the Uptime Kuma
+  Wiki are separate bodies of work. The repository remains the canonical home
+  for the complete independent documentation project. It was not merged into
+  Uptime Kuma.
+
+  A later Wiki contribution improved notification-method documentation. The
+  change refined wording around native notification providers, the Apprise
+  integration, and notification-documentation clarity. That pull request was
+  accepted and merged upstream.
+
+  > **Scope distinction:** the merged upstream contribution concerns Uptime
+  > Kuma Wiki notification documentation. It does not represent the independent
+  > documentation set being adopted by the project.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="08 / Selected evidence" id="selected-evidence" title="Make the work inspectable.">
+  <EvidenceBlock
+    items={[
+      {
+        label: "Tested against a running local Uptime Kuma instance",
+        status: "verified",
+      },
+      {
+        label: "HTTP monitor failure and recovery reproduced, including ENOTFOUND",
+        status: "verified",
+      },
+      {
+        label: "Telegram Down and recovery notifications verified",
+        status: "verified",
+      },
+      {
+        label: "Five-page task-oriented documentation set",
+        status: "verified",
+        href: "https://github.com/IamUnike/uptime-kuma-docs",
+      },
+      {
+        label: "Markdown linting, GitHub Actions, and pull-request workflow",
+        status: "verified",
+        href: "https://github.com/IamUnike/uptime-kuma-docs",
+      },
+      {
+        label: "Upstream Uptime Kuma Wiki documentation contribution — merged",
+        status: "verified",
+        href: "https://github.com/louislam/uptime-kuma-wiki/pull/175",
+      },
+    ]}
+  />
+
+  The repository contains the complete documentation, directory structure,
+  screenshots, Git history, lint configuration, and GitHub Actions workflow.
+  The case study selects only the evidence needed to explain the decisions and
+  verification path.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="09 / Outcome" id="outcome" title="A documented workflow with an auditable trail.">
+  The project produced a five-page task-oriented documentation set grounded in
+  direct product testing. It records a reproducible failure-and-recovery path,
+  verifies Telegram Down and recovery notifications, and maintains the work
+  through Markdown linting, GitHub Actions, and a pull-request workflow.
+
+  The separate upstream result is equally concrete: an accepted Uptime Kuma
+  Wiki contribution improving notification-method documentation.
+
+  <ArtifactFigure
+    label="Figure 03"
+    caption="The operational status page shows the public-facing result after the monitored workflow returned to a healthy state."
+  >
+    <ArtifactImage
+      src="/images/projects/uptime-kuma/status-page-operational.png"
+      alt="Uptime Kuma status page titled My System Status showing All Systems Operational and a Web Services monitor."
+      width={1920}
+      height={1140}
+    />
+  </ArtifactFigure>
 </CaseStudySection>

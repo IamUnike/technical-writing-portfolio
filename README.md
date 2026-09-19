@@ -1,8 +1,9 @@
 # Technical Writing Portfolio
 
-Phase 6F adds the production Work index and the reusable route, MDX, evidence,
-and artifact architecture for long-form case studies. The first case-study
-content remains intentionally deferred until its evidence is verified.
+Phase 6G-B publishes the evidence-driven Uptime Kuma case study using the Work
+index and reusable MDX, evidence, and artifact architecture established in
+Phase 6F. Other case studies remain intentionally unavailable until their
+evidence is verified.
 
 ## Stack
 

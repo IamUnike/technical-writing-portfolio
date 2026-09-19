@@ -192,6 +192,10 @@ body {
   margin-top: 1.25rem;
 }
 
+.case-study-prose :where(h3 + p) {
+  margin-top: 1.25rem;
+}
+
 .case-study-prose :where(ul, ol) {
   padding-left: 1.25rem;
 }

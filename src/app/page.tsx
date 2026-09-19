@@ -151,8 +151,9 @@ export default function HomePage() {
           </div>
 
           <p className="type-small mt-7 max-w-reading text-ink-muted">
-            Full case studies are being prepared. Current entries show verified
-            project context or an explicit content TODO.
+            Case studies are published as their evidence is verified. Other
+            entries show their current project status or an explicit content
+            TODO.
           </p>
         </Container>
       </Section>

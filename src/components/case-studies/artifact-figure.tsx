@@ -41,3 +41,36 @@ export function ArtifactImage({ alt, className, ...props }: ImageProps) {
     />
   );
 }
+
+type ArtifactPairItem = {
+  alt: string;
+  height: number;
+  label: string;
+  src: string;
+  width: number;
+};
+
+type ArtifactPairProps = {
+  items: readonly [ArtifactPairItem, ArtifactPairItem];
+};
+
+export function ArtifactPair({ items }: ArtifactPairProps) {
+  return (
+    <div className="grid gap-px bg-line md:grid-cols-2">
+      {items.map((item) => (
+        <div key={item.src} className="min-w-0 bg-ink p-5 sm:p-7">
+          <p className="type-label type-label-readable text-surface">
+            {item.label}
+          </p>
+          <ArtifactImage
+            src={item.src}
+            alt={item.alt}
+            width={item.width}
+            height={item.height}
+            className="mx-auto mt-5 w-auto max-w-full"
+          />
+        </div>
+      ))}
+    </div>
+  );
+}

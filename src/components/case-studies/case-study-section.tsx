@@ -17,7 +17,7 @@ export function CaseStudySection({
     <section
       id={id}
       aria-labelledby={`${id}-title`}
-      className="scroll-mt-[calc(var(--header-height)+var(--space-lg))] border-t border-line pt-8 first:border-t-0 first:pt-0 [&+&]:mt-16 sm:[&+&]:mt-20"
+      className="border-t border-line pt-8 first:border-t-0 first:pt-0 [&+&]:mt-16 sm:[&+&]:mt-20"
     >
       {eyebrow ? (
         <p className="type-label type-label-readable text-accent">{eyebrow}</p>

@@ -21,7 +21,7 @@ export function EvidenceBlock({
       className="my-10 border-y border-line bg-canvas-subtle px-5 py-6 sm:px-7"
     >
       <p className="type-label type-label-readable text-ink-subtle">{title}</p>
-      <ul className="mt-5 divide-y divide-line">
+      <ul className="!mt-5 !list-none divide-y divide-line !p-0">
         {items.map((item) => (
           <li
             key={`${item.status}-${item.label}`}

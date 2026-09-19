@@ -2,6 +2,7 @@ export type ProjectProminence = "featured" | "supporting";
 export type ProjectStatusTone = "complete" | "submitted" | "practice" | "todo";
 export type ProjectSlug = "uptime-kuma" | "resend" | "taskflow" | "conduit";
 export type CaseStudyStatus =
+  | "published"
   | "in-development"
   | "planned"
   | "awaiting-verification";
@@ -30,16 +31,43 @@ export const projects = [
   {
     slug: "uptime-kuma",
     name: "Uptime Kuma",
-    context: "Self-hosted monitoring product",
+    context: "Independent documentation / self-hosted monitoring",
     summary:
-      "Troubleshooting and notification documentation developed through hands-on product testing and a Docs-as-Code contribution workflow.",
-    focus: ["Product documentation", "Troubleshooting", "Notifications"],
-    investigation: ["Hands-on product testing", "Docs-as-Code workflow"],
-    technologies: ["Git", "GitHub", "Docs-as-Code"],
+      "A five-page, task-oriented documentation project grounded in local product testing, deliberate failure reproduction, notification verification, and Docs-as-Code practice.",
+    focus: [
+      "Product documentation",
+      "Troubleshooting",
+      "Notifications",
+      "Docs-as-Code",
+    ],
+    investigation: [
+      "Local Docker deployment",
+      "Failure and recovery reproduction",
+      "Telegram notification testing",
+      "Docs-as-Code workflow",
+    ],
+    technologies: [
+      "Markdown",
+      "Git",
+      "GitHub",
+      "GitHub Actions",
+      "Docker",
+      "Telegram",
+    ],
     evidence: "Upstream documentation contribution merged",
     statusTone: "complete",
     prominence: "featured",
-    caseStudyStatus: "in-development",
+    caseStudyStatus: "published",
+    externalLinks: [
+      {
+        href: "https://github.com/IamUnike/uptime-kuma-docs",
+        label: "Independent documentation repository",
+      },
+      {
+        href: "https://github.com/louislam/uptime-kuma-wiki/pull/175",
+        label: "Merged upstream contribution",
+      },
+    ],
   },
   {
     slug: "resend",
@@ -90,6 +118,7 @@ export const projects = [
 ] as const satisfies readonly Project[];
 
 export const caseStudyStatusLabels: Record<CaseStudyStatus, string> = {
+  published: "Available",
   "in-development": "In development",
   planned: "Planned",
   "awaiting-verification": "Awaiting verification",

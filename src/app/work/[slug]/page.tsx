@@ -3,12 +3,8 @@ import { notFound } from "next/navigation";
 
 import { CaseStudyHeader } from "@/components/case-studies/case-study-header";
 import { CaseStudyLayout } from "@/components/case-studies/case-study-layout";
-import { caseStudySlugs, getCaseStudyLoader } from "@/content/case-studies";
-import {
-  caseStudyStatusLabels,
-  getProject,
-  type ProjectSlug,
-} from "@/data/projects";
+import { caseStudySlugs, getCaseStudy } from "@/content/case-studies";
+import { getProject, type ProjectSlug } from "@/data/projects";
 
 type CaseStudyPageProps = {
   params: Promise<{ slug: string }>;
@@ -25,45 +21,42 @@ export async function generateMetadata({
 }: CaseStudyPageProps): Promise<Metadata> {
   const { slug } = await params;
   const project = getProject(slug);
-  const loader = project
-    ? getCaseStudyLoader(project.slug as ProjectSlug)
+  const caseStudy = project
+    ? getCaseStudy(project.slug as ProjectSlug)
     : undefined;
 
-  if (!project || !loader) {
+  if (!project || !caseStudy) {
     return {};
   }
 
   return {
-    title: `${project.name} case study — structural preview`,
-    description:
-      "A structural development preview. Verified case-study content has not yet been published.",
-    robots: {
-      index: false,
-      follow: false,
-    },
+    title: caseStudy.seo.title,
+    description: caseStudy.seo.description,
   };
 }
 
 export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const { slug } = await params;
   const project = getProject(slug);
-  const loader = project
-    ? getCaseStudyLoader(project.slug as ProjectSlug)
+  const caseStudy = project
+    ? getCaseStudy(project.slug as ProjectSlug)
     : undefined;
 
-  if (!project || !loader) {
+  if (!project || !caseStudy) {
     notFound();
   }
 
-  const { default: CaseStudyContent } = await loader();
+  const { default: CaseStudyContent } = await caseStudy.loader();
 
   return (
     <article>
       <CaseStudyHeader
+        metadata={caseStudy.header.metadata}
         project={project}
-        statusLabel={caseStudyStatusLabels[project.caseStudyStatus]}
+        statusLabel={caseStudy.header.statusLabel}
+        summary={caseStudy.header.summary}
       />
-      <CaseStudyLayout>
+      <CaseStudyLayout contents={caseStudy.contents}>
         <CaseStudyContent />
       </CaseStudyLayout>
     </article>

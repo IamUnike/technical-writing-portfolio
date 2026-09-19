@@ -2,6 +2,7 @@ import {
   caseStudyStatusLabels,
   type Project,
 } from "@/data/projects";
+import { TextLink } from "@/components/ui/text-link";
 import { cn } from "@/lib/cn";
 
 type WorkProjectEntryProps = {
@@ -91,11 +92,33 @@ export function WorkProjectEntry({ index, project }: WorkProjectEntryProps) {
           </p>
         </div>
 
-        <p className="type-technical type-technical-readable border-t border-line pt-5 text-ink-muted sm:col-span-2 lg:mt-8">
-          Case study / {caseStudyStatusLabels[project.caseStudyStatus]}
-        </p>
+        <CaseStudyAvailability project={project} />
       </div>
     </article>
+  );
+}
+
+function CaseStudyAvailability({ project }: { project: Project }) {
+  if (project.caseStudyStatus === "published") {
+    return (
+      <p className="border-t border-line pt-3 sm:col-span-2 lg:mt-8">
+        <TextLink
+          href={`/work/${project.slug}`}
+          className="type-technical type-technical-readable inline-flex min-h-11 items-center"
+        >
+          Read case study
+          <span aria-hidden="true" className="ml-2">
+            →
+          </span>
+        </TextLink>
+      </p>
+    );
+  }
+
+  return (
+    <p className="type-technical type-technical-readable border-t border-line pt-5 text-ink-muted sm:col-span-2 lg:mt-8">
+      Case study / {caseStudyStatusLabels[project.caseStudyStatus]}
+    </p>
   );
 }
 

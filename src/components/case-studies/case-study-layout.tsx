@@ -20,7 +20,7 @@ export function CaseStudyLayout({
   const hasContents = contents.length > 1;
 
   return (
-    <Container className="py-[var(--section-space)]">
+    <Container className="pt-14 pb-[var(--section-space)] sm:py-[var(--section-space)]">
       <div className="grid gap-12 lg:grid-cols-12 lg:gap-x-8">
         {hasContents ? <CaseStudyContents items={contents} /> : null}
         <div
