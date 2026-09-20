@@ -6,6 +6,7 @@ import {
   ArtifactPair,
 } from "@/components/case-studies/artifact-figure";
 import {
+  DocumentationArchitecture,
   DocumentationSet,
   RevisionTrail,
   TechnicalSequence,
@@ -19,6 +20,7 @@ import {
   JourneyMap,
   PermissionEvidence,
 } from "@/components/case-studies/technical-artifacts";
+import { TextLink } from "@/components/ui/text-link";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
   return {
@@ -28,12 +30,14 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ApiErrorTable,
     CaseStudySection,
     CodeArtifact,
+    DocumentationArchitecture,
     DocumentationSet,
     EvidenceBlock,
     JourneyMap,
     PermissionEvidence,
     RevisionTrail,
     TechnicalSequence,
+    TextLink,
     WorkflowPath,
     ...components,
   };

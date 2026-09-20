@@ -1,0 +1,217 @@
+<CaseStudySection eyebrow="01 / Overview" id="overview" title="Design one documentation system, not a collection of pages.">
+  TaskFlow is an API documentation project organized around a task-management
+  REST API. The goal was to create a coherent developer experience across
+  onboarding, concepts, task guidance, endpoint reference, and troubleshooting
+  rather than present each page as an isolated writing sample.
+
+  The documentation is maintained in Markdown, built as a Docusaurus site, and
+  published through GitHub Pages. This case study focuses on the documentation
+  design and Docs-as-Code implementation; it does not claim production API
+  testing or observed server behavior.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="02 / Information architecture" id="information-architecture" title="Give each documentation type a distinct job.">
+  The information architecture separates reader needs into five connected
+  documentation types. The directory structure makes those distinctions
+  visible in the repository and in the published navigation.
+
+  <DocumentationArchitecture
+    items={[
+      {
+        label: "Getting started",
+        documents: ["quickstart.md"],
+        purpose: "Move from prerequisites and API-key setup to a first example request.",
+      },
+      {
+        label: "Concepts",
+        documents: ["taskflow-api.md"],
+        purpose: "Establish the API mental model before readers depend on endpoint detail.",
+      },
+      {
+        label: "Guides",
+        documents: ["authentication.md", "manage-tasks.md"],
+        purpose: "Support task completion across authentication and task-resource workflows.",
+      },
+      {
+        label: "API reference",
+        documents: ["tasks.md"],
+        purpose: "Provide exact operation, parameter, request, response, and status information.",
+      },
+      {
+        label: "Troubleshooting",
+        documents: ["errors.md"],
+        purpose: "Help readers interpret documented error states and choose corrective actions.",
+      },
+    ]}
+  />
+
+  This division supports progressive disclosure: the quickstart prioritizes a
+  first interaction, concepts explain the system, guides support complete
+  tasks, reference supplies exact technical detail, and troubleshooting helps
+  readers recover when a request does not match the documented path.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="03 / Developer journey" id="developer-journey" title="Connect navigation to the developer&apos;s next question.">
+  The intended progression moves from understanding the API to completing
+  common resource operations, then into reference and troubleshooting. It is a
+  designed documentation path, not a claim about observed user behavior or
+  analytics.
+
+  <WorkflowPath
+    title="Intended documentation path"
+    steps={[
+      "Understand the API",
+      "Authenticate",
+      "Create the first task",
+      "Manage task resources",
+      "Consult endpoint reference",
+      "Diagnose errors",
+    ]}
+  />
+
+  The same progression connects the documentation categories: concepts prepare
+  the reader for authentication, the guides move into task operations, and the
+  reference and troubleshooting material remain available when greater detail
+  is required.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="04 / API documentation design" id="api-design" title="Make endpoint detail predictable to scan.">
+  The Tasks API material documents REST-style resource operations through
+  `POST`, `GET`, `PATCH`, and `DELETE`. It covers Bearer API-key authentication,
+  JSON request and response examples, path parameters, request headers, request
+  bodies, and HTTP status codes.
+
+  <TechnicalSequence
+    title="Reference structure"
+    items={[
+      "Name the operation and HTTP method",
+      "Identify the endpoint",
+      "Define path parameters and request headers",
+      "Separate required request fields",
+      "Show example API requests and responses",
+      "Document HTTP status behavior",
+    ]}
+  />
+
+  Repeating this structure across operations lets a reader move between
+  creating, retrieving, updating, and deleting task resources without learning
+  a different reference pattern for each method. The examples demonstrate the
+  shape of requests and responses; they are not presented as observed
+  production API results.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="05 / Quickstart" id="quickstart" title="Keep the first task focused and progressive.">
+  The quickstart begins with prerequisites and confirms that `curl` is
+  available before the request task begins. It then introduces API-key setup,
+  presents an example `curl` request, explains how to read the documented
+  response, provides authentication troubleshooting, and points readers toward
+  the next documentation tasks.
+
+  That order keeps setup details close to the step that needs them while
+  postponing broader endpoint coverage until after the reader has a working
+  mental model. The `curl` material is presented as runnable request examples,
+  not as evidence of execution against a live TaskFlow service.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="06 / Troubleshooting" id="troubleshooting" title="Build recovery paths into the documentation set.">
+  The troubleshooting material covers `400 Bad Request`, `401 Unauthorized`,
+  `403 Forbidden`, `404 Not Found`, and `500 Internal Server Error`. Each entry
+  combines error context, an example error structure, checks the reader can
+  perform, and corrective actions.
+
+  Links back to authentication and reference material keep troubleshooting
+  connected to the rest of the documentation system. These are documented
+  error scenarios and recovery paths; the case study does not describe them as
+  experimentally reproduced server responses.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="07 / Docusaurus and static generation" id="docusaurus" title="Publish the hierarchy as a static documentation site.">
+  The Markdown source is implemented as a Docusaurus documentation site. The
+  `website/docs` directory and category configuration carry the hierarchy from
+  the repository into the site navigation, while Docusaurus produces the
+  static build deployed to GitHub Pages.
+
+  <WorkflowPath
+    title="Static publishing path"
+    steps={["Markdown documentation", "Docusaurus", "Static build", "GitHub Pages"]}
+  />
+
+  Static site generation creates deployable HTML assets from the documentation
+  source; Docusaurus is the site generator, not a CMS.
+
+  <TextLink href="https://iamunike.github.io/taskflow-docs/" className="mt-7 inline-flex min-h-11 items-center">View published documentation<span aria-hidden="true" className="ml-2">↗</span></TextLink>
+</CaseStudySection>
+
+<CaseStudySection eyebrow="08 / Docs-as-Code and delivery" id="docs-as-code" title="Separate build verification from deployment.">
+  The repository uses Git and pull requests to maintain the documentation and
+  GitHub Actions to verify and publish the Docusaurus site. The two workflows
+  have distinct responsibilities.
+
+  <h3 className="type-h3 mt-10">Documentation CI</h3>
+
+  On pull requests to `main` and pushes to `main`, the CI workflow checks out
+  the repository, uses Node.js 20, runs `npm ci`, and runs `npm run build` from
+  the `website` directory. This verifies that the documentation site can build;
+  it is not presented as broader product or API testing.
+
+  <h3 className="type-h3 mt-10">GitHub Pages deployment</h3>
+
+  On pushes to `main`, the deployment workflow builds the Docusaurus site,
+  uploads `website/build` as the GitHub Pages artifact, and deploys that
+  generated output.
+
+  <WorkflowPath
+    title="Documentation delivery path"
+    steps={[
+      "Markdown",
+      "Git",
+      "Branches and pull requests",
+      "GitHub Actions",
+      "Docusaurus build",
+      "GitHub Pages deployment",
+    ]}
+  />
+
+  The Git history records iterative documentation work, including the initial
+  structure and guides, API concepts and reference material, troubleshooting,
+  quickstart updates, build and deployment configuration, broken-link
+  corrections, Docusaurus `trailingSlash` configuration, and pull-request
+  merges.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="09 / Outcome" id="outcome" title="A published API documentation system with a maintainable delivery path.">
+  The result is a structured, multi-page API documentation set with clear
+  separation between quickstart, concepts, guides, reference, and
+  troubleshooting. The Markdown source is version controlled, the Docusaurus
+  build is checked through GitHub Actions, and the generated site is deployed
+  through GitHub Pages.
+
+  <EvidenceBlock
+    items={[
+      {
+        label: "Structured quickstart, concepts, guides, API reference, and troubleshooting",
+        status: "verified",
+        href: "https://github.com/IamUnike/taskflow-docs",
+      },
+      {
+        label: "REST operation, authentication, JSON example, and status-code documentation",
+        status: "verified",
+      },
+      {
+        label: "Docusaurus static documentation site",
+        status: "verified",
+        href: "https://iamunike.github.io/taskflow-docs/",
+      },
+      {
+        label: "Automated Docusaurus build verification through GitHub Actions",
+        status: "verified",
+        href: "https://github.com/IamUnike/taskflow-docs",
+      },
+      {
+        label: "Generated site deployed through GitHub Pages",
+        status: "verified",
+        href: "https://iamunike.github.io/taskflow-docs/",
+      },
+    ]}
+  />
+</CaseStudySection>

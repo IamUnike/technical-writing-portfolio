@@ -3,6 +3,58 @@ type DocumentationItem = {
   title: string;
 };
 
+type DocumentationArchitectureItem = {
+  documents: readonly string[];
+  label: string;
+  purpose: string;
+};
+
+type DocumentationArchitectureProps = {
+  items: readonly DocumentationArchitectureItem[];
+  title?: string;
+};
+
+export function DocumentationArchitecture({
+  items,
+  title = "Documentation architecture",
+}: DocumentationArchitectureProps) {
+  return (
+    <div className="my-10 border-y border-line" aria-label={title}>
+      <p className="type-label type-label-readable border-b border-line py-4 text-ink-subtle">
+        {title}
+      </p>
+      <ol className="!mt-0 !list-none !p-0">
+        {items.map((item, index) => (
+          <li
+            key={item.label}
+            className="grid grid-cols-[2.25rem_minmax(0,1fr)] gap-x-3 gap-y-3 border-b border-line py-5 last:border-b-0 sm:grid-cols-[2.25rem_minmax(8.5rem,0.7fr)_minmax(0,1.3fr)] sm:gap-x-5 sm:py-6"
+          >
+            <span className="type-technical text-accent" aria-hidden="true">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <div className="min-w-0">
+              <p className="font-medium leading-snug text-ink">{item.label}</p>
+              <ul className="!mt-2 !list-none !p-0">
+                {item.documents.map((document) => (
+                  <li
+                    key={document}
+                    className="type-technical break-words text-ink-subtle [overflow-wrap:anywhere]"
+                  >
+                    {document}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <p className="type-small col-start-2 text-ink-muted sm:col-auto">
+              {item.purpose}
+            </p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
 type DocumentationSetProps = {
   items: readonly DocumentationItem[];
 };

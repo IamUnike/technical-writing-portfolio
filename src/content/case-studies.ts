@@ -115,6 +115,42 @@ const caseStudies = {
         "An independent Resend Node.js documentation case study covering developer onboarding, API-key permissions, runnable examples, reproduced errors, Docs-as-Code, and an open upstream contribution.",
     },
   },
+  taskflow: {
+    contents: [
+      { href: "#overview", label: "Overview" },
+      { href: "#information-architecture", label: "Information architecture" },
+      { href: "#developer-journey", label: "Developer journey" },
+      { href: "#api-design", label: "API documentation" },
+      { href: "#quickstart", label: "Quickstart" },
+      { href: "#troubleshooting", label: "Troubleshooting" },
+      { href: "#docusaurus", label: "Docusaurus and SSG" },
+      { href: "#docs-as-code", label: "Docs-as-Code" },
+      { href: "#outcome", label: "Outcome" },
+    ],
+    header: {
+      metadata: [
+        { label: "Project", values: ["API documentation project"] },
+        {
+          label: "Documentation",
+          values: ["Quickstart", "Concepts", "Guides", "API reference", "Troubleshooting"],
+        },
+        {
+          label: "Publishing",
+          values: ["Docusaurus", "Static site generation", "GitHub Pages"],
+        },
+      ],
+      statusLabel: "Published",
+      summary:
+        "A structured REST API documentation set organized around the developer journey and published through a Docs-as-Code workflow using Docusaurus and GitHub Pages.",
+      title: "TaskFlow API Documentation",
+    },
+    loader: () => import("../../content/projects/taskflow.mdx"),
+    seo: {
+      title: "TaskFlow API Documentation Case Study",
+      description:
+        "A TaskFlow API documentation case study focused on information architecture, Docusaurus, Docs-as-Code, static site generation, and GitHub Pages deployment.",
+    },
+  },
 } satisfies Partial<Record<ProjectSlug, CaseStudyDefinition>>;
 
 export const caseStudySlugs = Object.keys(caseStudies) as ProjectSlug[];

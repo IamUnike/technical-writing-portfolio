@@ -62,7 +62,7 @@ export function WorkProjectEntry({ index, project }: WorkProjectEntryProps) {
       <div className="grid gap-7 sm:grid-cols-2 lg:col-span-4 lg:col-start-9 lg:block">
         <div>
           <p className="type-label type-label-readable text-ink-subtle">
-            Investigation
+            {project.workLabel ?? "Investigation"}
           </p>
           <ul className="type-small mt-3 space-y-2 text-ink-muted">
             {project.investigation.map((item) => (

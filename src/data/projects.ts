@@ -24,6 +24,7 @@ export type Project = {
   statusTone: ProjectStatusTone;
   prominence: ProjectProminence;
   caseStudyStatus: CaseStudyStatus;
+  workLabel?: string;
   externalLinks?: readonly ProjectExternalLink[];
 };
 
@@ -113,16 +114,37 @@ export const projects = [
   {
     slug: "taskflow",
     name: "TaskFlow",
-    context: "API documentation practice",
+    context: "API documentation / Docusaurus",
     summary:
-      "An API quickstart and Docs-as-Code practice project built around runnable curl examples and static documentation publishing.",
-    focus: ["API quickstart", "Docs-as-Code"],
-    investigation: ["Runnable curl example development"],
-    technologies: ["Docusaurus", "curl", "GitHub Pages"],
-    evidence: "Documentation practice project",
+      "A structured REST API documentation set organized around the developer journey and published as a static Docusaurus site through GitHub Pages.",
+    focus: ["API documentation", "Information architecture", "Docs-as-Code"],
+    investigation: [
+      "Developer journey design",
+      "REST reference structure",
+      "Static documentation publishing",
+    ],
+    technologies: [
+      "Docusaurus",
+      "Markdown",
+      "curl",
+      "GitHub Actions",
+      "GitHub Pages",
+    ],
+    evidence: "Documentation published · automated build and deployment",
     statusTone: "practice",
     prominence: "supporting",
-    caseStudyStatus: "planned",
+    caseStudyStatus: "published",
+    workLabel: "Documentation system",
+    externalLinks: [
+      {
+        href: "https://iamunike.github.io/taskflow-docs/",
+        label: "View documentation",
+      },
+      {
+        href: "https://github.com/IamUnike/taskflow-docs",
+        label: "View repository",
+      },
+    ],
   },
   {
     slug: "conduit",
