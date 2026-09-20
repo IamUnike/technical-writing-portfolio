@@ -13,6 +13,7 @@ export type CaseStudyDefinition = {
     metadata: readonly CaseStudyMetaGroup[];
     statusLabel: string;
     summary: string;
+    title?: string;
   };
   loader: () => Promise<CaseStudyModule>;
   seo: {
@@ -73,10 +74,53 @@ const caseStudies = {
         "An independent Uptime Kuma documentation project covering hands-on monitoring tests, failure recovery, Telegram notifications, Docs-as-Code, and a merged upstream contribution.",
     },
   },
+  resend: {
+    contents: [
+      { href: "#overview", label: "Overview" },
+      { href: "#challenge", label: "Challenge" },
+      { href: "#developer-journey", label: "Developer journey" },
+      { href: "#api-verification", label: "API verification" },
+      { href: "#permissions", label: "Permissions" },
+      { href: "#troubleshooting", label: "Troubleshooting" },
+      { href: "#examples", label: "Runnable examples" },
+      { href: "#docs-as-code", label: "Docs-as-Code" },
+      { href: "#upstream", label: "Upstream proposal" },
+      { href: "#outcome", label: "Outcome" },
+    ],
+    header: {
+      metadata: [
+        { label: "Project", values: ["Independent technical-writing project"] },
+        {
+          label: "Focus",
+          values: ["Developer documentation", "API & SDK documentation"],
+        },
+        {
+          label: "Environment",
+          values: ["Node.js", "JavaScript", "Resend Node.js SDK"],
+        },
+        {
+          label: "Documentation",
+          values: ["5 documentation pages", "2 sanitized examples"],
+        },
+      ],
+      statusLabel: "Published",
+      summary:
+        "An independent developer-documentation project that turns a tested Node.js SDK workflow into onboarding, permission, troubleshooting, and runnable-example guidance, with a separate open upstream contribution.",
+      title: "Resend Node.js Developer Guide",
+    },
+    loader: () => import("../../content/projects/resend.mdx"),
+    seo: {
+      title: "Resend Node.js Documentation Case Study",
+      description:
+        "An independent Resend Node.js documentation case study covering developer onboarding, API-key permissions, runnable examples, reproduced errors, Docs-as-Code, and an open upstream contribution.",
+    },
+  },
 } satisfies Partial<Record<ProjectSlug, CaseStudyDefinition>>;
 
 export const caseStudySlugs = Object.keys(caseStudies) as ProjectSlug[];
 
-export function getCaseStudy(slug: ProjectSlug) {
+export function getCaseStudy(
+  slug: ProjectSlug,
+): CaseStudyDefinition | undefined {
   return caseStudies[slug as keyof typeof caseStudies];
 }

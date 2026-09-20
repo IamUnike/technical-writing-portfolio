@@ -55,6 +55,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
         project={project}
         statusLabel={caseStudy.header.statusLabel}
         summary={caseStudy.header.summary}
+        title={caseStudy.header.title}
       />
       <CaseStudyLayout contents={caseStudy.contents}>
         <CaseStudyContent />

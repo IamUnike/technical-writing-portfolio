@@ -72,20 +72,43 @@ export const projects = [
   {
     slug: "resend",
     name: "Resend",
-    context: "Developer platform / Node.js",
+    context: "Independent developer documentation / Node.js SDK",
     summary:
-      "Developer documentation shaped by API and SDK testing, deliberate error reproduction, and documentation QA with GitHub Actions.",
-    focus: ["API documentation", "SDK documentation", "Troubleshooting"],
-    investigation: [
-      "API and SDK testing",
-      "Deliberate error reproduction",
-      "Documentation QA",
+      "A five-page developer guide and two sanitized JavaScript examples structured around onboarding, API-key permissions, reproduced errors, and documentation QA.",
+    focus: [
+      "Developer documentation",
+      "API & SDK documentation",
+      "Troubleshooting",
+      "Docs-as-Code",
     ],
-    technologies: ["Node.js", "GitHub Actions", "GitHub"],
-    evidence: "Upstream pull request submitted",
+    investigation: [
+      "Node.js SDK workflow testing",
+      "API-key permission testing",
+      "Six reproduced API error scenarios",
+      "Documentation QA with GitHub Actions",
+    ],
+    technologies: [
+      "Node.js",
+      "JavaScript",
+      "Resend SDK",
+      "Markdown",
+      "Git",
+      "GitHub Actions",
+    ],
+    evidence: "Documentation published · upstream pull request open",
     statusTone: "submitted",
     prominence: "featured",
-    caseStudyStatus: "planned",
+    caseStudyStatus: "published",
+    externalLinks: [
+      {
+        href: "https://github.com/IamUnike/resend-nodejs-docs",
+        label: "Independent documentation repository",
+      },
+      {
+        href: "https://github.com/resend/resend-examples/pull/313",
+        label: "Open upstream contribution",
+      },
+    ],
   },
   {
     slug: "taskflow",

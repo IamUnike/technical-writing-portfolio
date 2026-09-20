@@ -1,0 +1,334 @@
+<CaseStudySection eyebrow="01 / Overview" id="overview" title="Build a path from first credential to a diagnosable API workflow.">
+  This independent project documents how a developer can begin using the
+  official Resend Node.js SDK, complete a send-and-retrieve workflow, and
+  diagnose failures using the evidence returned by the API.
+
+  The result is a five-page developer guide supported by two sanitized
+  JavaScript examples. It was created as a technical-writing portfolio project,
+  not for or on behalf of Resend, and it is not official Resend documentation.
+
+  The work also produced a separate proposed improvement to Resend&apos;s public
+  examples repository. That upstream pull request remains open and is distinct
+  from the independent guide.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="02 / Documentation challenge" id="challenge" title="Explain the decisions around the API call—not only the call itself.">
+  A minimal SDK example can show how to invoke `resend.emails.send()`. Developer
+  onboarding also needs to explain where the credential comes from, which
+  permission it requires, what a returned email ID means, how delivery is
+  checked, and how to interpret failures that share an HTTP status.
+
+  The documentation therefore connects setup, successful requests, resource
+  retrieval, credential scope, and troubleshooting. It also separates the
+  workflow exercised during the project from functionality outside its test
+  scope.
+
+  > **Testing boundary:** initial integration testing used
+  > `onboarding@resend.dev`. Custom-domain sending was not tested. The guide
+  > preserves that distinction instead of extending the observed testing flow
+  > into an unsupported custom-domain claim.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="03 / Developer journey" id="developer-journey" title="Organize the guide around the developer&apos;s next decision.">
+  The information architecture follows a developer from an empty Node.js setup
+  to a successful API interaction, then into retrieval and error diagnosis.
+  Permissions and troubleshooting are part of that journey rather than
+  detached reference material.
+
+  <JourneyMap
+    stages={[
+      {
+        label: "Establish access",
+        steps: ["Set up Node.js", "Configure API credentials"],
+      },
+      {
+        label: "Send and confirm",
+        steps: ["Send an email", "Capture the email ID", "Verify delivery"],
+      },
+      {
+        label: "Inspect and resolve",
+        steps: ["Retrieve the email", "Diagnose API errors"],
+      },
+    ]}
+  />
+
+  <DocumentationSet
+    items={[
+      { title: "Get started with Resend and Node.js", filename: "docs/getting-started.md" },
+      { title: "Send your first email", filename: "docs/send-email.md" },
+      { title: "Retrieve an email", filename: "docs/retrieve-email.md" },
+      { title: "Understand API-key permissions", filename: "docs/api-key-permissions.md" },
+      { title: "Troubleshoot Resend API errors", filename: "docs/troubleshoot-errors.md" },
+    ]}
+  />
+
+  This sequence allows the send guide to establish the email ID, the retrieval
+  guide to reuse it, and the permission and troubleshooting pages to explain
+  why otherwise similar requests can produce different results.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="04 / API and SDK verification" id="api-verification" title="Separate request acceptance from delivery evidence.">
+  The tested send workflow loaded `RESEND_API_KEY` from an environment variable,
+  instantiated the SDK client, and submitted HTML and plain-text email through
+  `resend.emails.send()`. The response was inspected for either `data` or
+  `error`, and the email ID returned by a successful request was captured for
+  later use.
+
+  <TechnicalSequence
+    title="Verified SDK path"
+    items={[
+      "Load the API credential from the environment",
+      "Instantiate the Resend client",
+      "Send HTML or plain-text content",
+      "Inspect the returned data or error",
+      "Capture the email ID",
+      "Check delivery state separately",
+      "Retrieve the email by ID with sufficient permission",
+      "Inspect the retrieved resource",
+    ]}
+  />
+
+  Receiving an email ID establishes that Resend accepted the send request. It
+  does not, by itself, prove inbox delivery. Delivery was checked separately.
+  The plain-text test was later retrieved with `last_event: delivered`,
+  `html: null`, and `text: Hello from Resend!`.
+
+  The retrieved resource also exposed fields including `id`, `to`, `from`,
+  `created_at`, `subject`, `cc`, `bcc`, `reply_to`, `last_event`,
+  `scheduled_at`, `message_id`, `html`, and `text`. The case study omits the
+  real identifiers, addresses, and message data used during testing.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="05 / API-key permissions" id="permissions" title="Turn a permission failure into a developer concept.">
+  The documentation distinguishes two questions that can otherwise collapse
+  into a generic credential problem. **Authentication** asks whether the API
+  key is valid. **Authorization** asks whether that valid key is permitted to
+  perform the requested operation.
+
+  <PermissionEvidence
+    items={[
+      {
+        credential: "Sending Access key",
+        tests: [
+          { operation: "Send email", result: "Succeeded" },
+          { operation: "Retrieve email", result: "Failed" },
+        ],
+        note: "Retrieval returned HTTP 401, restricted_api_key, and: “This API key is restricted to only send emails”.",
+      },
+      {
+        credential: "Credential with sufficient permission",
+        tests: [
+          { operation: "Retrieve email", result: "Succeeded" },
+          { operation: "Inspect resource fields", result: "Completed" },
+        ],
+        note: "The retrieved resource supplied delivery state, addressing metadata, and HTML or plain-text content fields.",
+      },
+    ]}
+  />
+
+  This behavior supports least-privilege guidance without recommending broader
+  access by default. A sending-only credential remains appropriate for sending;
+  retrieval requires a credential authorized for that operation.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="06 / Reproduced errors" id="troubleshooting" title="Diagnose the response, not the status code alone.">
+  Six failure scenarios were reproduced deliberately and converted into
+  troubleshooting guidance. The resulting documentation teaches readers to
+  inspect the HTTP status, error name, error message, attempted operation, and
+  API-key permissions together.
+
+  <ApiErrorTable
+    rows={[
+      {
+        scenario: "Invalid API key",
+        status: "401",
+        name: "validation_error",
+        message: "API key is invalid",
+      },
+      {
+        scenario: "Insufficient API-key permission",
+        status: "401",
+        name: "restricted_api_key",
+        message: "This API key is restricted to only send emails",
+      },
+      {
+        scenario: "Testing sender used with another recipient",
+        status: "403",
+        name: "testing-email restriction",
+        message: "Testing-email restriction observed",
+      },
+      {
+        scenario: "Unknown email ID",
+        status: "404",
+        name: "not_found",
+        message: "Email not found",
+      },
+      {
+        scenario: "Invalid recipient format",
+        status: "422",
+        name: "validation_error",
+        message: "Invalid `to` field",
+      },
+      {
+        scenario: "Missing subject",
+        status: "422",
+        name: "validation_error",
+        message: "Missing `subject` field.",
+      },
+    ]}
+  />
+
+  The two `401` responses demonstrate why status alone is insufficient: an
+  invalid key produced `validation_error`, while a valid sending-only key used
+  for retrieval produced `restricted_api_key`. The two `422` responses likewise
+  required the message and attempted operation to identify the field that
+  needed correction.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="07 / Runnable examples" id="examples" title="Keep the guide connected to executable developer work.">
+  The repository includes two sanitized JavaScript files used to connect the
+  written journey to concrete SDK operations. The selected excerpts show the
+  credential boundary and the relationship between sending and retrieval
+  without exposing a real key, recipient, or email ID.
+
+  <CodeArtifact
+    filename="examples/send-email.js"
+    caption="The send example loads the environment credential, uses the testing sender, and leaves the recipient as a clear placeholder. The complete file also handles the returned data or error."
+    code={`const resend = new Resend(process.env.RESEND_API_KEY);
+
+const { data, error } = await resend.emails.send({
+  from: "onboarding@resend.dev",
+  to: "YOUR_RESEND_ACCOUNT_EMAIL",
+  subject: "My first Resend email",
+  html: "<p>Hello from Resend!</p>",
+});`}
+  />
+
+  <CodeArtifact
+    filename="examples/get-email.js"
+    caption="Retrieval uses a separately named credential with sufficient permission and a sanitized email-ID placeholder. The complete file handles the returned resource or error."
+    code={`const resend = new Resend(process.env.RESEND_FULL_ACCESS_KEY);
+
+const { data, error } = await resend.emails.get(
+  "YOUR_EMAIL_ID"
+);`}
+  />
+
+  The supporting credential guidance stores keys in environment variables,
+  excludes `.env` through `.gitignore`, avoids printing credentials during
+  troubleshooting, and advises revoking or rotating an exposed key. These are
+  documentation decisions around safe example use, not a separate security
+  tutorial.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="08 / Docs-as-Code" id="docs-as-code" title="Use QA feedback to revise the documentation set.">
+  The independent repository keeps the guide, examples, environment template,
+  Markdown lint configuration, and GitHub Actions workflow under version
+  control. The selected history records a small but complete maintenance loop.
+
+  <WorkflowPath
+    title="Documentation quality path"
+    steps={[
+      "Initial documentation",
+      "GitHub Actions",
+      "Markdown lint feedback",
+      "Corrections",
+      "Pull request",
+      "Merge",
+    ]}
+  />
+
+  <RevisionTrail
+    items={[
+      {
+        commits: ["914f8c7"],
+        description: "Initial Resend Node.js documentation added.",
+      },
+      {
+        commits: ["ec73c2b"],
+        description: "Documentation quality checks added through GitHub Actions.",
+      },
+      {
+        commits: ["0116844", "a558b16"],
+        description: "Lint feedback addressed through formatting and Markdown corrections.",
+      },
+      {
+        commits: ["163ccd8"],
+        description: "The documentation-quality pull request merged into the independent repository.",
+      },
+    ]}
+  />
+
+  The history demonstrates revision through automated feedback and review. It
+  is evidence of documentation maintenance as an engineering workflow, not a
+  claim that the independent guide was published by Resend.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="09 / Upstream contribution" id="upstream" title="Propose a clearer route through Express example setup.">
+  A separate contribution was submitted to the official
+  `resend/resend-examples` repository as **PR #313, “Clarify Express example
+  setup.”** The pull request is open. It has not been described as merged,
+  accepted, or published by Resend.
+
+  The proposed change addresses ambiguity encountered while working through
+  developer setup. It links API-key creation, names the expected
+  `RESEND_API_KEY` environment variable, explains how the default onboarding
+  sender supports the basic testing flow, and distinguishes that path from the
+  verified-domain and `EMAIL_FROM` configuration needed for custom-domain
+  sending.
+
+  The proposal is carried on branch `docs/clarify-express-setup` in commit
+  `8c4ffa5`.
+
+  > **Scope distinction:** the five-page guide and two examples live in the
+  > independent documentation repository. PR #313 is a separate proposed
+  > improvement to Resend&apos;s public examples repository.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="10 / Outcome" id="outcome" title="A developer guide with inspectable technical evidence.">
+  The project produced a five-page documentation set and two sanitized
+  JavaScript examples organized around onboarding, successful API use,
+  permissions, retrieval, and troubleshooting. Its strongest evidence is the
+  connection between observed API behavior and the concepts the guide teaches.
+
+  <EvidenceBlock
+    items={[
+      {
+        label: "Five documentation pages and two sanitized JavaScript examples",
+        status: "verified",
+        href: "https://github.com/IamUnike/resend-nodejs-docs",
+      },
+      {
+        label: "HTML and plain-text send workflows exercised with the Node.js SDK",
+        status: "verified",
+      },
+      {
+        label: "Email retrieval and delivered state inspected by ID",
+        status: "verified",
+      },
+      {
+        label: "Authentication and authorization behavior documented from permission tests",
+        status: "verified",
+      },
+      {
+        label: "Six API failure scenarios reproduced and documented",
+        status: "verified",
+      },
+      {
+        label: "Markdown linting, GitHub Actions, and pull-request workflow",
+        status: "verified",
+        href: "https://github.com/IamUnike/resend-nodejs-docs",
+      },
+      {
+        label: "Resend PR #313 — proposed Express setup clarification",
+        status: "submitted",
+        href: "https://github.com/resend/resend-examples/pull/313",
+      },
+    ]}
+  />
+
+  Custom-domain sending remains deliberately outside the evidence boundary.
+  The outcome is therefore framed around the tested SDK workflow, the resulting
+  developer documentation, its Docs-as-Code quality path, and an upstream
+  proposal whose status remains open.
+</CaseStudySection>

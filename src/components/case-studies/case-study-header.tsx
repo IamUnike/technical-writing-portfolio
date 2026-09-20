@@ -14,6 +14,7 @@ type CaseStudyHeaderProps = {
   project: Project;
   statusLabel: string;
   summary: string;
+  title?: string;
 };
 
 export function CaseStudyHeader({
@@ -21,6 +22,7 @@ export function CaseStudyHeader({
   project,
   statusLabel,
   summary,
+  title,
 }: CaseStudyHeaderProps) {
   return (
     <header className="border-b border-line py-10 sm:py-[var(--section-space-compact)]">
@@ -41,7 +43,9 @@ export function CaseStudyHeader({
             <p className="type-label type-label-readable mt-5 text-ink-subtle sm:mt-7">
               {project.context}
             </p>
-            <h1 className="type-h1 mt-3 max-w-[14ch]">{project.name}</h1>
+            <h1 className="type-h1 mt-3 max-w-[14ch]">
+              {title ?? project.name}
+            </h1>
             <p className="type-body-large mt-5 max-w-[44rem] text-ink-muted sm:mt-7">
               {summary}
             </p>
