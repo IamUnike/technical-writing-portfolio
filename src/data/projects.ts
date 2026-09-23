@@ -149,16 +149,36 @@ export const projects = [
   {
     slug: "conduit",
     name: "Conduit",
-    context: "Content verification pending",
+    context: "Complex-system documentation / GitBook",
     summary:
-      "Project details will be added after the source material and contribution scope have been verified.",
-    focus: ["Content inventory pending"],
-    investigation: ["Verification pending"],
-    technologies: [],
-    evidence: "Content TODO — verification required",
-    statusTone: "todo",
+      "A multi-section documentation system for webhook delivery concepts, developer onboarding, operations, security, administration, and troubleshooting.",
+    focus: [
+      "Complex-system documentation",
+      "Developer documentation",
+      "Information architecture",
+      "Operational documentation",
+    ],
+    investigation: [
+      "Webhook concept modeling",
+      "Multi-audience information architecture",
+      "Visual troubleshooting guidance",
+    ],
+    technologies: ["GitBook", "Markdown", "Git"],
+    evidence: "Multi-section documentation published with GitBook",
+    statusTone: "practice",
     prominence: "supporting",
-    caseStudyStatus: "awaiting-verification",
+    caseStudyStatus: "published",
+    workLabel: "Documentation system",
+    externalLinks: [
+      {
+        href: "https://francis-gideon.gitbook.io/conduit-docs",
+        label: "View documentation",
+      },
+      {
+        href: "https://github.com/IamUnike/Conduit",
+        label: "View source repository",
+      },
+    ],
   },
 ] as const satisfies readonly Project[];
 

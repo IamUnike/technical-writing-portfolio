@@ -151,6 +151,39 @@ const caseStudies = {
         "A TaskFlow API documentation case study focused on information architecture, Docusaurus, Docs-as-Code, static site generation, and GitHub Pages deployment.",
     },
   },
+  conduit: {
+    contents: [
+      { href: "#overview", label: "Overview" },
+      { href: "#challenge", label: "Documentation challenge" },
+      { href: "#information-architecture", label: "Information architecture" },
+      { href: "#system-model", label: "System model" },
+      { href: "#onboarding", label: "Developer onboarding" },
+      { href: "#documentation-types", label: "Documentation types" },
+      { href: "#technical-depth", label: "Technical depth" },
+      { href: "#publishing", label: "GitBook and outcome" },
+    ],
+    header: {
+      metadata: [
+        { label: "Project", values: ["Technical-writing portfolio project"] },
+        {
+          label: "Focus",
+          values: ["Complex-system documentation", "Developer documentation"],
+        },
+        { label: "Platform", values: ["GitBook"] },
+        { label: "Technical subject", values: ["Webhook delivery systems"] },
+      ],
+      statusLabel: "Published",
+      summary:
+        "A structured documentation system for a webhook-delivery platform, guiding readers from initial integration through system concepts, operations, security, administration, and troubleshooting.",
+      title: "Conduit Documentation",
+    },
+    loader: () => import("../../content/projects/conduit.mdx"),
+    seo: {
+      title: "Conduit Documentation Case Study",
+      description:
+        "A Conduit documentation case study covering webhook concepts, complex-system information architecture, developer documentation, technical visual explanation, and GitBook publishing.",
+    },
+  },
 } satisfies Partial<Record<ProjectSlug, CaseStudyDefinition>>;
 
 export const caseStudySlugs = Object.keys(caseStudies) as ProjectSlug[];

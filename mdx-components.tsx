@@ -8,6 +8,7 @@ import {
 import {
   DocumentationArchitecture,
   DocumentationSet,
+  DocumentationTaxonomy,
   RevisionTrail,
   TechnicalSequence,
   WorkflowPath,
@@ -32,6 +33,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     CodeArtifact,
     DocumentationArchitecture,
     DocumentationSet,
+    DocumentationTaxonomy,
     EvidenceBlock,
     JourneyMap,
     PermissionEvidence,

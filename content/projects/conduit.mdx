@@ -1,0 +1,218 @@
+<CaseStudySection eyebrow="01 / Overview" id="overview" title="Document the system as one connected experience.">
+  Conduit is a technical-writing portfolio project centered on a webhook-delivery
+  system. The documentation spans developer onboarding, core concepts,
+  implementation guidance, operations, administration, security, reference,
+  and troubleshooting rather than presenting those topics as isolated samples.
+
+  The portfolio signal is the documentation design: organizing many interacting
+  technical concepts into a system readers can enter at the level their task
+  requires. The project is not presented as client work, employment, or evidence
+  of observed production usage.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="02 / Documentation challenge" id="challenge" title="Make a connected system approachable before every concept is known.">
+  A webhook-delivery system introduces relationships across organizations,
+  applications, environments, permissions, endpoints, subscriptions, events,
+  deliveries, and delivery attempts. Payload signing, retries, backoff behavior,
+  delivery guarantees, dead-letter queues, and replay add operational and
+  security concerns to the same model.
+
+  The documentation challenge was to preserve those relationships without
+  requiring readers to understand the complete architecture before they could
+  complete a useful task. The resulting structure gives onboarding, concepts,
+  procedures, reference, operations, and recovery guidance distinct roles while
+  keeping them connected through navigation and cross-references.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="03 / Information architecture" id="information-architecture" title="Build three layers for orientation, understanding, and action.">
+  The published documentation uses three broad layers. Each gives readers a
+  different way into the same technical system without reproducing the entire
+  table of contents inside the portfolio.
+
+  <DocumentationArchitecture
+    title="Three-layer documentation structure"
+    items={[
+      {
+        label: "Getting Started",
+        documents: ["Orientation", "Quickstart", "Environment promotion", "Language quickstarts"],
+        purpose: "Support initial orientation and move an integration from setup toward its first documented delivery workflow.",
+      },
+      {
+        label: "Core Concepts",
+        documents: ["System model", "Resource relationships", "Delivery lifecycle", "Security and recovery concepts"],
+        purpose: "Explain how the parts of the webhook-delivery model relate before readers depend on procedural detail.",
+      },
+      {
+        label: "Guides / Reference",
+        documents: ["Implementation", "Operations", "Administration", "API reference", "Security", "Troubleshooting"],
+        purpose: "Support specific tasks, exact lookup, ongoing operation, administration, change communication, and recovery.",
+      },
+    ]}
+  />
+
+  This separation lets a new reader start with a bounded integration path,
+  while an experienced reader can move directly to operational guidance, exact
+  reference material, security considerations, or troubleshooting.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="04 / System architecture" id="system-model" title="Turn a delivery pipeline into a readable conceptual model.">
+  The documentation decomposes webhook delivery into a sequence whose concepts
+  can then be explained independently and recombined when readers need the
+  complete model.
+
+  <TechnicalSequence
+    title="Documented webhook-delivery model"
+    items={[
+      "Event ingestion",
+      "Subscription matching",
+      "Payload preparation and signing",
+      "HTTPS delivery",
+      "Delivery attempt",
+      "Retry behavior when required",
+      "Delivery history",
+      "Dead-letter queue and replay when required",
+    ]}
+  />
+
+  The sequence is a documentation model of the system—not independently
+  observed production telemetry. It gives terms such as Event, Subscription,
+  Delivery, Delivery Attempt, Retry Policy, and Dead Letter Queue a stable place
+  in the reader&apos;s mental model.
+
+  <ArtifactFigure
+    label="Figure 01"
+    caption="The source documentation reduces the high-level relationship to three actors: a publishing backend, the delivery system, and the receiving endpoint."
+  >
+    <ArtifactImage
+      src="/images/projects/conduit/delivery-model.png"
+      alt="Diagram showing a backend posting an event to Conduit, followed by a signed HTTPS delivery from Conduit to a customer endpoint."
+      width={1774}
+      height={887}
+    />
+  </ArtifactFigure>
+</CaseStudySection>
+
+<CaseStudySection eyebrow="05 / Developer onboarding" id="onboarding" title="Move from account context to an inspectable delivery path.">
+  The onboarding material progressively introduces the minimum concepts needed
+  for a reader to follow the documented integration path. Examples are provided
+  for cURL, Node.js, and Python so the same sequence can be understood in more
+  than one developer context.
+
+  <JourneyMap
+    title="Documented onboarding path"
+    stages={[
+      {
+        label: "Establish access",
+        steps: ["Create an application", "Generate an API key"],
+      },
+      {
+        label: "Connect delivery",
+        steps: ["Register an endpoint", "Send a test event"],
+      },
+      {
+        label: "Secure and inspect",
+        steps: ["Verify the payload signature", "Inspect the delivery"],
+      },
+    ]}
+  />
+
+  This progression supports early task completion while introducing endpoint,
+  subscription, event, signing, and delivery concepts only when they become
+  relevant. The examples are documentation artifacts; the case study does not
+  claim execution against a production Conduit service.
+</CaseStudySection>
+
+<CaseStudySection eyebrow="06 / Documentation types" id="documentation-types" title="Write for learning, implementation, operation, and recovery.">
+  The documentation system uses multiple forms because one format cannot serve
+  every reader need equally well.
+
+  <DocumentationTaxonomy
+    items={[
+      { label: "Conceptual documentation", purpose: "Explain system behavior, terminology, and resource relationships." },
+      { label: "Quickstarts", purpose: "Provide a bounded route into an initial integration." },
+      { label: "How-to and integration guides", purpose: "Support specific implementation tasks and workflow decisions." },
+      { label: "Reference documentation", purpose: "Supply exact technical details for APIs, data models, and errors." },
+      { label: "Operational documentation", purpose: "Support delivery monitoring, retries, failure handling, and replay." },
+      { label: "Administrator documentation", purpose: "Cover account, team, application, and environment administration." },
+      { label: "Security documentation", purpose: "Explain authentication, permissions, signing, and related safeguards." },
+      { label: "Troubleshooting", purpose: "Structure diagnosis, corrective action, and recovery paths." },
+      { label: "Glossary", purpose: "Keep terminology consistent across a concept-dense system." },
+      { label: "Changelog and deprecation guidance", purpose: "Communicate change and help readers plan transitions." },
+    ]}
+  />
+</CaseStudySection>
+
+<CaseStudySection eyebrow="07 / Technical depth" id="technical-depth" title="Use selected explanations to make dense subjects navigable.">
+  The documentation addresses technical subjects including webhook delivery,
+  subscriptions, delivery attempts, retry policies, backoff behavior, delivery
+  guarantees, HMAC-SHA256 payload signing, authentication and permissions,
+  dead-letter queues, replay, idempotency, event filtering and transformation,
+  data models, schema evolution, high-volume publishing, migration, and
+  multi-service architecture.
+
+  Rather than reproduce that complete body of material here, the case study
+  selects two explanation patterns: a stable end-to-end delivery model and a
+  decision flow that turns a failed delivery into a sequence of checks. These
+  demonstrate technical communication choices, not independent verification of
+  every described platform capability.
+
+  <ArtifactFigure
+    label="Figure 02"
+    caption="A decision flow in the source documentation organizes failed-delivery diagnosis by attempt history and response category before directing the reader toward replay."
+  >
+    <ArtifactImage
+      src="/images/projects/conduit/troubleshooting-flow.png"
+      alt="Troubleshooting flowchart for a failed or exhausted webhook delivery, branching through prior success and the latest timeout, authentication, not-found, or server-error response before replay."
+      width={1190}
+      height={1322}
+      className="mx-auto w-auto max-w-full"
+    />
+  </ArtifactFigure>
+</CaseStudySection>
+
+<CaseStudySection eyebrow="08 / GitBook and outcome" id="publishing" title="Publish a broad documentation system without making publishing the story.">
+  The documentation source is version controlled and published through
+  GitBook. Its history records an initial commit, GitBook content exports, site
+  changes, and asset renaming; that history supports maintenance without being
+  treated as the project&apos;s primary evidence.
+
+  <WorkflowPath
+    title="Publishing path"
+    steps={["Structured documentation source", "Git version history", "GitBook", "Published documentation"]}
+  />
+
+  The outcome is a published, multi-section technical documentation system with
+  onboarding, concepts, implementation guidance, operations, administration,
+  reference, security, troubleshooting, terminology, and change communication.
+  No adoption, reliability, customer, or business-impact claim is attached to
+  that result.
+
+  <EvidenceBlock
+    items={[
+      {
+        label: "Published multi-section Conduit documentation",
+        status: "verified",
+        href: "https://francis-gideon.gitbook.io/conduit-docs",
+      },
+      {
+        label: "Getting Started, Core Concepts, and Guides / Reference information architecture",
+        status: "verified",
+      },
+      {
+        label: "Developer, operational, administrator, security, reference, and troubleshooting documentation",
+        status: "verified",
+      },
+      {
+        label: "Technical figures for delivery modeling and troubleshooting explanation",
+        status: "verified",
+      },
+      {
+        label: "Git-backed documentation source and GitBook export history",
+        status: "verified",
+        href: "https://github.com/IamUnike/Conduit",
+      },
+    ]}
+  />
+
+  <TextLink href="https://francis-gideon.gitbook.io/conduit-docs" className="inline-flex min-h-11 items-center">View published documentation<span aria-hidden="true" className="ml-2">↗</span></TextLink>
+</CaseStudySection>

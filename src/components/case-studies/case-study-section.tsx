@@ -22,7 +22,10 @@ export function CaseStudySection({
       {eyebrow ? (
         <p className="type-label type-label-readable text-accent">{eyebrow}</p>
       ) : null}
-      <h2 id={`${id}-title`} className="type-h2 mt-4 max-w-[16ch]">
+      <h2
+        id={`${id}-title`}
+        className="type-h2 case-study-section-heading mt-4"
+      >
         {title}
       </h2>
       <div className="mt-7">{children}</div>
